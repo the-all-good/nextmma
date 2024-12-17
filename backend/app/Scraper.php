@@ -24,7 +24,7 @@ class Scraper
         $response = Http::withHeaders([
             'x-apisports-key' => $this->key,
         ])->withQueryParameters($query)->get($request)->json();
-        
+
         return $response;
     }
 
@@ -70,13 +70,21 @@ class Scraper
 
     public function get_fighter($id)
     {
+        // dd("fuck");
         if (Fighter::where('id', $id)->exists()){
             return;
         }
 
         $query = ['id' => $id];
         $responses = $this->make_request('fighters', $query)['response'];
-        
+
+        if(empty($responses)){
+            return response()->json([
+                'response' => 'ID does not match Fighter',
+                'status' => 'invalid'
+            ]);
+        }
+
         foreach($responses as $response){
             $fighter = new Fighter([
                 'id' => $response['id'],
@@ -95,6 +103,6 @@ class Scraper
             $fighter->save();
         }
         
-        return;
+        return $fighter;
     }
 }

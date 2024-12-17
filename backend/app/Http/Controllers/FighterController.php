@@ -2,17 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Scraper;
 use App\Models\Fighter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FighterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $cache = Cache::get($id);
+        if($cache === null){
+            $fighter = Fighter::where('id', $id)->first();
+        
+            if(!$fighter){
+                $scrape = new Scraper();
+                $fighter = $scrape->get_fighter($id);
+            }
+            Cache::put($id, $fighter);
+            $cache = $fighter;
+        }
+        
+        if(!$cache instanceof Fighter){
+            return $cache->getContent();
+        }
+        return $cache->toJson();
     }
 
     /**
