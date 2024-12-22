@@ -17,6 +17,25 @@ class FightsController extends Controller
         return view('welcome', ['fights' => $results]);
     }
 
+    public function all()
+    {
+        return fights::all()->toJson();
+    }
+
+    public function main_event()
+    {
+        return collect(fights::all())->groupBy('slug')->keys()->toJson();
+    }
+
+    public function get_fight($slug)
+    {
+        return collect(fights::where('slug', $slug)->get())->map(function ($fight){
+            $fight->fighter_1_id = fighter::where('id', $fight->fighter_1_id)->first();
+            $fight->fighter_2_id = fighter::where('id', $fight->fighter_2_id)->first();
+            return $fight;
+        })->toJson();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
