@@ -13,7 +13,6 @@ module.exports = {
         'selected': '#ebf737',
       }
     },
-    
   },
   plugins: [],
 }

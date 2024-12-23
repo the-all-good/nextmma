@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Support\Facades\Http;
 use App\Models\fights;
 use App\Models\Fighter;
+use App\Models\Record;
 
 class Scraper
 {
@@ -104,5 +105,38 @@ class Scraper
         }
         
         return $fighter;
+    }
+
+    public function get_record($id)
+    {
+        if (Record::where('id', $id)->exists()){
+            return;
+        }
+
+        $query = ['id' => $id];
+        $responses = $this->make_request('fighters/records', $query)['response'];
+
+        if(empty($responses)){
+            return response()->json([
+                'response' => 'ID does not match Fighter',
+                'status' => 'invalid'
+            ]);
+        }
+
+        foreach($responses as $response){
+            $record = new Record([
+                'fighter_id' => $response['fighter']['id'],
+                'win' => $response['total']['win'],
+                'loss' => $response['total']['loss'],
+                'draw' => $response['total']['draw'],
+                'win_by_ko' => $response['ko']['win'],
+                'loss_by_ko' => $response['ko']['loss'],
+                'win_by_sub' => $response['sub']['win'],
+                'loss_by_sub' => $response['sub']['loss'],
+            ]);
+            $record->save();
+        }
+        
+        return $record;
     }
 }

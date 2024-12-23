@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\fights;
 use App\Models\Fighter;
+use App\Models\Record;
 use Illuminate\Http\Request;
 
 class FightsController extends Controller
@@ -30,57 +31,24 @@ class FightsController extends Controller
     public function get_fight($slug)
     {
         return collect(fights::where('slug', $slug)->get())->map(function ($fight){
-            $fight->fighter_1_id = fighter::where('id', $fight->fighter_1_id)->first();
-            $fight->fighter_2_id = fighter::where('id', $fight->fighter_2_id)->first();
+            $fight->fighter_1_id = Fighter::where('id', $fight->fighter_1_id)->firstOr(function () {
+                return Fighter::get_fighter($fight->fighter_1_id);
+            });
+            $fight->fighter_1_id->record = Record::where('fighter_id', $fight->fighter_1_id)->firstOr(function () use ($fight) {
+                return Record::get_record($fight->fighter_1_id->id);
+            });
+            $fight->fighter_2_id = Fighter::where('id', $fight->fighter_2_id)->firstOr(function () {
+                return Fighter::get_fighter($fight->fighter_2_id);
+            });
+            $fight->fighter_2_id->record = Record::where('fighter_id', $fight->fighter_2_id)->firstOr(function () use ($fight) {
+                return Record::get_record($fight->fighter_2_id->id);
+            });
+
             return $fight;
         })->toJson();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(fights $fights)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(fights $fights)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, fights $fights)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(fights $fights)
-    {
-        //
+    public function test($id){
+        return Record::get_record($id);
     }
 }

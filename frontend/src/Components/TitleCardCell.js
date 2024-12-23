@@ -12,7 +12,11 @@ function TitleCardCell(props){
                             { props.fightInfo.fighter_1_id.name }
                     </p>
                     <p className="text-gray-500 text-end">
-                            9 - 1 - 0
+                        <>
+                        {props.fightInfo.fighter_1_id.record !== null ?
+                        `${(!isNaN(props.fightInfo.fighter_1_id.record.win) ? props.fightInfo.fighter_1_id.record.win : '?')} - ${(!isNaN(props.fightInfo.fighter_1_id.record.loss) ? props.fightInfo.fighter_1_id.record.loss : '?')} - ${(!isNaN(props.fightInfo.fighter_1_id.record.draw) ? props.fightInfo.fighter_1_id.record.loss : '?')}` :
+                        "? - ? - ?"}
+                        </>
                     </p>
                 </td>
                 <td className="justify-center">
@@ -31,8 +35,11 @@ function TitleCardCell(props){
                             { props.fightInfo.fighter_2_id.name }
                     </p>
                     <p className="text-gray-500 text-start">
-                            9 - 1 - 0
-                    </p>
+                    <>
+                        {props.fightInfo.fighter_2_id.record !== null ?
+                        `${(!isNaN(props.fightInfo.fighter_2_id.record.win) ? props.fightInfo.fighter_2_id.record.win : '?')} - ${(!isNaN(props.fightInfo.fighter_2_id.record.loss) ? props.fightInfo.fighter_2_id.record.loss : '?')} - ${(!isNaN(props.fightInfo.fighter_2_id.record.draw) ? props.fightInfo.fighter_2_id.record.loss : '?')}` :
+                        "? - ? - ?"}
+                        </>                    </p>
                 </td>
             </tr> 
     );

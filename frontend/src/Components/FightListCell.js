@@ -16,7 +16,7 @@ function FightListCell(props) {
 
     return (
         <div 
-            className={`w-full text-white border-y-2 p-1 border-spacing hover:border-l-selected hover:border-l-4 ${
+            className={`w-full text-white text-l border-y-2 p-2 font-bold border-spacing hover:border-l-selected hover:border-l-4 ${
                 isSelected ? 'border-l-selected border-l-4' : ''
             }`}
             onClick={() => {

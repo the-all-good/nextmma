@@ -23,7 +23,7 @@ function FightList(){
     }
 
     return (
-        <div id="promotion-navigation" className="bg-secondary w-1/4 min-w-96 items-center text-center">
+        <div id="promotion-navigation" className="bg-secondary w-full min-w-96 items-center text-center overflow-y-scroll scroll-bar">
             {allFights.map((fight) => {
                 return <FightListCell fightName={fight}/>
             })}

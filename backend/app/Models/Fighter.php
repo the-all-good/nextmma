@@ -20,4 +20,13 @@ class Fighter extends Model
         'category',
         'last_update',
     ];
+
+    public static function get_fighter($id)
+    {
+        if(!Fighter::where('id', $id)->exists()){
+            $scrape = new Scraper();
+            $scrape->get_record($id);
+        }
+        return Fighter::where('id', $id)->get()->first();
+    }
 }
