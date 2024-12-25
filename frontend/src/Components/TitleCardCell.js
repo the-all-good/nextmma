@@ -1,11 +1,10 @@
 import React from 'react';
 
 function TitleCardCell(props){
-    console.log(props.fightInfo);
     return (
-        <tr className="text-ts  my-4 border-y-2 border-spacing">
+        <tr className="text-gray-200  my-4 border-y-2 border-spacing">
                 <td>
-                    <p classNameName="font-extrabold font-mono">{props.fightInfo.category}</p>
+                    <p className="font-extrabold font-mono">{props.fightInfo.category}</p>
                 </td>
                 <td className="flex flex-col p-2 ">
                     <p className="justify-center text-white text-end">

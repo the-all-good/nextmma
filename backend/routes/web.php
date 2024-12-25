@@ -10,6 +10,6 @@ Route::get('/', function () {
 });
 
 Route::get('/events', function() {
-    // $scraper = new Scraper();
-    // return $scraper->scrape_fighters();
+    $scraper = new Scraper();
+    return $scraper->get_fights(2025);
 });

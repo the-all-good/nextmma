@@ -71,7 +71,6 @@ class Scraper
 
     public function get_fighter($id)
     {
-        // dd("fuck");
         if (Fighter::where('id', $id)->exists()){
             return;
         }
@@ -92,7 +91,7 @@ class Scraper
                 'name' => $response['name'],
                 'nickname' => $response['nickname'],
                 'photo' => $response['photo'],
-                'gender' => $response['gender'],
+                'gender' => $response['gender'] == null ? 'undefined' : $response['gender'],
                 'birth_date' => $response['birth_date'],
                 'height' => $response['height'] == null ? 'undefined' : $response['height'],
                 'weight' => $response['weight'] == null ? 'undefined' : $response['weight'],
@@ -110,6 +109,9 @@ class Scraper
     public function get_record($id)
     {
         if (Record::where('id', $id)->exists()){
+            return;
+        }
+        if (!Fighter::where('id', $id)->exists()){
             return;
         }
 

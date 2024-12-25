@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FightList from './FightList';
 import TitleCard from './TitleCard';
+import TimerBlock from './TimerBlock';
+import { FightsContext } from '../Providers/FightsContext';
 
 function HomePage() {
+    const { highlightFight } = useContext(FightsContext);
+    let mainEvent = null;
+    if(highlightFight){
+        mainEvent = highlightFight.find((fight) => fight.is_main === 1);
+    }
+
     return (
         <div className="bg-primary h-screen flex flex-col">
             <div id="heading" className="w-full flex content-between justify-between p-4">
@@ -16,16 +24,10 @@ function HomePage() {
                     <div className="h-60 bg-green-950 flex-initial flex flex-col content-end justify-end">
                         <div className="flex justify-between p-4">
                             <div>
-                                <p className="text-white font-bold">Main card</p><p className="text-white">11:00 AM AEST</p>
                             </div>
-                            <div>
+                            <div className="content-center text-white text-xl text-center">
                                 TIME UNTIL MAIN CARD
-                                <div className="flex justify-evenly">
-                                    <p className="text-yellow-300 text-3xl pl-2">01</p><p className="text-yellow-900 text-xl">DAYS</p>
-                                    <p className="text-yellow-300 text-3xl pl-2">03</p><p className="text-yellow-900 text-xl">HOURS</p>
-                                    <p className="text-yellow-300 text-3xl pl-2">35</p><p className="text-yellow-900 text-xl">MINS</p>
-                                    <p className="text-yellow-300 text-3xl pl-2">51</p><p className="text-yellow-900 text-xl">SEC</p>
-                                </div>
+                                {mainEvent ? <TimerBlock event={mainEvent}/> : ''}
                             </div>
                             <div>
                                 {/* EMPTY SPACE */}

@@ -6,7 +6,6 @@ export const FightsContext = createContext(null);
 // Get List of Fighters
 export async function GetEndpoint($slug) {
   const url = `http://mmaapi.benalgie.com/api/${$slug}`;
-  console.log(url);
       const response = fetch(url)
       .then(response => response.json())
       .catch(error => console.error(error));

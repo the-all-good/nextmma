@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scraper;
 
 class Fighter extends Model
 {
@@ -25,7 +26,7 @@ class Fighter extends Model
     {
         if(!Fighter::where('id', $id)->exists()){
             $scrape = new Scraper();
-            $scrape->get_record($id);
+            $scrape->get_fighter($id);
         }
         return Fighter::where('id', $id)->get()->first();
     }
